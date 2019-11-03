@@ -1,67 +1,89 @@
 # etcd-ca.crt
-resource "local_file" "etcd_ca_crt" {
-  content  = tls_self_signed_cert.etcd-ca.cert_pem
-  filename = "${var.asset_dir}/tls/etcd-ca.crt"
+resource "aws_s3_bucket_object" "etcd_ca_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.etcd-ca.cert_pem
+  etag    = md5(tls_self_signed_cert.etcd-ca.cert_pem)
+  key     = "/tls/etcd-ca.crt"
 }
 
 # etcd-ca.key
-resource "local_file" "etcd_ca_key" {
-  content  = tls_private_key.etcd-ca.private_key_pem
-  filename = "${var.asset_dir}/tls/etcd-ca.key"
+resource "aws_s3_bucket_object" "etcd_ca_key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.etcd-ca.private_key_pem
+  etag    = md5(tls_private_key.etcd-ca.private_key_pem)
+  key     = "/tls/etcd-ca.key"
 }
 
 # etcd-client-ca.crt
-resource "local_file" "etcd_client_ca_crt" {
-  content  = tls_self_signed_cert.etcd-ca.cert_pem
-  filename = "${var.asset_dir}/tls/etcd-client-ca.crt"
+resource "aws_s3_bucket_object" "etcd_client_ca_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.etcd-ca.cert_pem
+  etag    = md5(tls_self_signed_cert.etcd-ca.cert_pem)
+  key     = "/tls/etcd-client-ca.crt"
 }
 
 # etcd-client.crt
-resource "local_file" "etcd_client_crt" {
-  content  = tls_locally_signed_cert.client.cert_pem
-  filename = "${var.asset_dir}/tls/etcd-client.crt"
+resource "aws_s3_bucket_object" "etcd_client_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.client.cert_pem
+  etag    = md5(tls_locally_signed_cert.client.cert_pem)
+  key     = "/tls/etcd-client.crt"
 }
 
 # etcd-client.key
-resource "local_file" "etcd_client_key" {
-  content  = tls_private_key.client.private_key_pem
-  filename = "${var.asset_dir}/tls/etcd-client.key"
+resource "aws_s3_bucket_object" "etcd_client_key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.client.private_key_pem
+  etag    = md5(tls_private_key.client.private_key_pem)
+  key     = "/tls/etcd-client.key"
 }
 
 # server-ca.crt
-resource "local_file" "etcd_server_ca_crt" {
-  content  = tls_self_signed_cert.etcd-ca.cert_pem
-  filename = "${var.asset_dir}/tls/etcd/server-ca.crt"
+resource "aws_s3_bucket_object" "etcd_server_ca_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.etcd-ca.cert_pem
+  etag    = md5(tls_self_signed_cert.etcd-ca.cert_pem)
+  key     = "/tls/etcd/server-ca.crt"
 }
 
 # server.crt
-resource "local_file" "etcd_server_crt" {
-  content  = tls_locally_signed_cert.server.cert_pem
-  filename = "${var.asset_dir}/tls/etcd/server.crt"
+resource "aws_s3_bucket_object" "etcd_server_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.server.cert_pem
+  etag    = md5(tls_locally_signed_cert.server.cert_pem)
+  key     = "/tls/etcd/server.crt"
 }
 
 # server.key
-resource "local_file" "etcd_server_key" {
-  content  = tls_private_key.server.private_key_pem
-  filename = "${var.asset_dir}/tls/etcd/server.key"
+resource "aws_s3_bucket_object" "etcd_server_key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.server.private_key_pem
+  etag    = md5(tls_private_key.server.private_key_pem)
+  key     = "/tls/etcd/server.key"
 }
 
 # peer-ca.crt
-resource "local_file" "etcd_peer_ca_crt" {
-  content  = tls_self_signed_cert.etcd-ca.cert_pem
-  filename = "${var.asset_dir}/tls/etcd/peer-ca.crt"
+resource "aws_s3_bucket_object" "etcd_peer_ca_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.etcd-ca.cert_pem
+  etag    = md5(tls_self_signed_cert.etcd-ca.cert_pem)
+  key     = "/tls/etcd/peer-ca.crt"
 }
 
 # peer.crt
-resource "local_file" "etcd_peer_crt" {
-  content  = tls_locally_signed_cert.peer.cert_pem
-  filename = "${var.asset_dir}/tls/etcd/peer.crt"
+resource "aws_s3_bucket_object" "etcd_peer_crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.peer.cert_pem
+  etag    = md5(tls_locally_signed_cert.peer.cert_pem)
+  key     = "/tls/etcd/peer.crt"
 }
 
 # peer.key
-resource "local_file" "etcd_peer_key" {
-  content  = tls_private_key.peer.private_key_pem
-  filename = "${var.asset_dir}/tls/etcd/peer.key"
+resource "aws_s3_bucket_object" "etcd_peer_key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.peer.private_key_pem
+  etag    = md5(tls_private_key.peer.private_key_pem)
+  key     = "/tls/etcd/peer.key"
 }
 
 # certificates and keys

@@ -28,18 +28,22 @@ resource "tls_self_signed_cert" "aggregation-ca" {
   ]
 }
 
-resource "local_file" "aggregation-ca-key" {
+resource "aws_s3_bucket_object" "aggregation-ca-key" {
   count = var.enable_aggregation ? 1 : 0
 
-  content  = tls_private_key.aggregation-ca[0].private_key_pem
-  filename = "${var.asset_dir}/tls/aggregation-ca.key"
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.aggregation-ca[0].private_key_pem
+  etag    = md5(tls_private_key.aggregation-ca[0].private_key_pem)
+  key     = "/tls/aggregation-ca.key"
 }
 
-resource "local_file" "aggregation-ca-crt" {
+resource "aws_s3_bucket_object" "aggregation-ca-crt" {
   count = var.enable_aggregation ? 1 : 0
 
-  content  = tls_self_signed_cert.aggregation-ca[0].cert_pem
-  filename = "${var.asset_dir}/tls/aggregation-ca.crt"
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.aggregation-ca[0].cert_pem
+  etag    = md5(tls_self_signed_cert.aggregation-ca[0].cert_pem)
+  key     = "/tls/aggregation-ca.crt"
 }
 
 # Kubernetes apiserver (i.e. front-proxy-client)
@@ -81,17 +85,21 @@ resource "tls_locally_signed_cert" "aggregation-client" {
   ]
 }
 
-resource "local_file" "aggregation-client-key" {
+resource "aws_s3_bucket_object" "aggregation-client-key" {
   count = var.enable_aggregation ? 1 : 0
 
-  content  = tls_private_key.aggregation-client[0].private_key_pem
-  filename = "${var.asset_dir}/tls/aggregation-client.key"
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.aggregation-client[0].private_key_pem
+  etag    = md5(tls_private_key.aggregation-client[0].private_key_pem)
+  key     = "/tls/aggregation-client.key"
 }
 
-resource "local_file" "aggregation-client-crt" {
+resource "aws_s3_bucket_object" "aggregation-client-crt" {
   count = var.enable_aggregation ? 1 : 0
 
-  content  = tls_locally_signed_cert.aggregation-client[0].cert_pem
-  filename = "${var.asset_dir}/tls/aggregation-client.crt"
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.aggregation-client[0].cert_pem
+  etag    = md5(tls_locally_signed_cert.aggregation-client[0].cert_pem)
+  key     = "/tls/aggregation-client.crt"
 }
 

@@ -24,14 +24,18 @@ resource "tls_self_signed_cert" "kube-ca" {
   ]
 }
 
-resource "local_file" "kube-ca-key" {
-  content  = tls_private_key.kube-ca.private_key_pem
-  filename = "${var.asset_dir}/tls/ca.key"
+resource "aws_s3_bucket_object" "kube-ca-key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.kube-ca.private_key_pem
+  etag    = md5(tls_private_key.kube-ca.private_key_pem)
+  key     = "/tls/ca.key"
 }
 
-resource "local_file" "kube-ca-crt" {
-  content  = tls_self_signed_cert.kube-ca.cert_pem
-  filename = "${var.asset_dir}/tls/ca.crt"
+resource "aws_s3_bucket_object" "kube-ca-crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_self_signed_cert.kube-ca.cert_pem
+  etag    = md5(tls_self_signed_cert.kube-ca.cert_pem)
+  key     = "/tls/ca.crt"
 }
 
 # Kubernetes API Server (tls/{apiserver.key,apiserver.crt})
@@ -80,14 +84,18 @@ resource "tls_locally_signed_cert" "apiserver" {
   ]
 }
 
-resource "local_file" "apiserver-key" {
-  content  = tls_private_key.apiserver.private_key_pem
-  filename = "${var.asset_dir}/tls/apiserver.key"
+resource "aws_s3_bucket_object" "apiserver-key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.apiserver.private_key_pem
+  etag    = md5(tls_private_key.apiserver.private_key_pem)
+  key     = "/tls/apiserver.key"
 }
 
-resource "local_file" "apiserver-crt" {
-  content  = tls_locally_signed_cert.apiserver.cert_pem
-  filename = "${var.asset_dir}/tls/apiserver.crt"
+resource "aws_s3_bucket_object" "apiserver-crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.apiserver.cert_pem
+  etag    = md5(tls_locally_signed_cert.apiserver.cert_pem)
+  key     = "/tls/apiserver.crt"
 }
 
 # Kubernetes Admin (tls/{admin.key,admin.crt})
@@ -123,14 +131,18 @@ resource "tls_locally_signed_cert" "admin" {
   ]
 }
 
-resource "local_file" "admin-key" {
-  content  = tls_private_key.admin.private_key_pem
-  filename = "${var.asset_dir}/tls/admin.key"
+resource "aws_s3_bucket_object" "admin-key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.admin.private_key_pem
+  etag    = md5(tls_private_key.admin.private_key_pem)
+  key     = "/tls/admin.key"
 }
 
-resource "local_file" "admin-crt" {
-  content  = tls_locally_signed_cert.admin.cert_pem
-  filename = "${var.asset_dir}/tls/admin.crt"
+resource "aws_s3_bucket_object" "admin-crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.admin.cert_pem
+  etag    = md5(tls_locally_signed_cert.admin.cert_pem)
+  key     = "/tls/admin.crt"
 }
 
 # Kubernete's Service Account (tls/{service-account.key,service-account.pub})
@@ -140,14 +152,18 @@ resource "tls_private_key" "service-account" {
   rsa_bits  = "2048"
 }
 
-resource "local_file" "service-account-key" {
-  content  = tls_private_key.service-account.private_key_pem
-  filename = "${var.asset_dir}/tls/service-account.key"
+resource "aws_s3_bucket_object" "service-account-key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.service-account.private_key_pem
+  etag    = md5(tls_private_key.service-account.private_key_pem)
+  key     = "/tls/service-account.key"
 }
 
-resource "local_file" "service-account-crt" {
-  content  = tls_private_key.service-account.public_key_pem
-  filename = "${var.asset_dir}/tls/service-account.pub"
+resource "aws_s3_bucket_object" "service-account-crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.service-account.public_key_pem
+  etag    = md5(tls_private_key.service-account.public_key_pem)
+  key     = "/tls/service-account.pub"
 }
 
 # Kubelet
@@ -184,13 +200,17 @@ resource "tls_locally_signed_cert" "kubelet" {
   ]
 }
 
-resource "local_file" "kubelet-key" {
-  content  = tls_private_key.kubelet.private_key_pem
-  filename = "${var.asset_dir}/tls/kubelet.key"
+resource "aws_s3_bucket_object" "kubelet-key" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_private_key.kubelet.private_key_pem
+  etag    = md5(tls_private_key.kubelet.private_key_pem)
+  key     = "/tls/kubelet.key"
 }
 
-resource "local_file" "kubelet-crt" {
-  content  = tls_locally_signed_cert.kubelet.cert_pem
-  filename = "${var.asset_dir}/tls/kubelet.crt"
+resource "aws_s3_bucket_object" "kubelet-crt" {
+  bucket  = aws_s3_bucket.assets.id
+  content = tls_locally_signed_cert.kubelet.cert_pem
+  etag    = md5(tls_locally_signed_cert.kubelet.cert_pem)
+  key     = "/tls/kubelet.crt"
 }
 

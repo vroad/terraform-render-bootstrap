@@ -112,3 +112,19 @@ variable "cluster_domain_suffix" {
   default     = "cluster.local"
 }
 
+variable "assets_bucket_prefix" {
+  type        = string
+  description = "Prefix of S3 bucket for storing assets"
+  default     = "k8s-assets-"
+}
+
+variable "assets_bucket_noncurrent_version_expiration" {
+  type        = number
+  description = "Number of days deleted files expire"
+  default     = 90
+}
+
+variable "region" {
+  type        = string
+  description = "Region of the AWS provider"
+}
