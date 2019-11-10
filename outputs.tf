@@ -1,9 +1,13 @@
+output "assets" {
+  value = local.assets
+}
+
 output "id" {
-  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${local.static-manifests-hash} ${local.manifests-hash}")
 }
 
 output "content_hash" {
-  value = sha1("${template_dir.static-manifests.id} ${template_dir.manifests.id}")
+  value = sha1("${local.static-manifests-hash} ${local.manifests-hash}")
 }
 
 output "cluster_dns_service_ip" {
@@ -12,12 +16,12 @@ output "cluster_dns_service_ip" {
 
 // Generated kubeconfig for Kubelets (i.e. lower privilege than admin)
 output "kubeconfig-kubelet" {
-  value = data.template_file.kubeconfig-kubelet.rendered
+  value = local.kubeconfig-kubelet-content
 }
 
 // Generated kubeconfig for admins (i.e. human super-user)
 output "kubeconfig-admin" {
-  value = data.template_file.kubeconfig-admin.rendered
+  value = local.kubeconfig-admin-content
 }
 
 # etcd TLS assets

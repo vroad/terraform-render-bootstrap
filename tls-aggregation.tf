@@ -28,18 +28,13 @@ resource "tls_self_signed_cert" "aggregation-ca" {
   ]
 }
 
-resource "local_file" "aggregation-ca-key" {
-  count = var.enable_aggregation ? 1 : 0
-
-  content  = tls_private_key.aggregation-ca[0].private_key_pem
-  filename = "${var.asset_dir}/tls/aggregation-ca.key"
-}
-
-resource "local_file" "aggregation-ca-crt" {
-  count = var.enable_aggregation ? 1 : 0
-
-  content  = tls_self_signed_cert.aggregation-ca[0].cert_pem
-  filename = "${var.asset_dir}/tls/aggregation-ca.crt"
+locals {
+  aggregation-certs = var.enable_aggregation ? {
+    "/tls/aggregation-ca.key" : tls_private_key.aggregation-ca[0].private_key_pem,
+    "/tls/aggregation-ca.crt" : tls_self_signed_cert.aggregation-ca[0].cert_pem,
+    "/tls/aggregation-client.key" : tls_private_key.aggregation-client[0].private_key_pem,
+    "/tls/aggregation-client.crt" : tls_locally_signed_cert.aggregation-client[0].cert_pem
+  } : {}
 }
 
 # Kubernetes apiserver (i.e. front-proxy-client)
@@ -79,19 +74,5 @@ resource "tls_locally_signed_cert" "aggregation-client" {
     "digital_signature",
     "client_auth",
   ]
-}
-
-resource "local_file" "aggregation-client-key" {
-  count = var.enable_aggregation ? 1 : 0
-
-  content  = tls_private_key.aggregation-client[0].private_key_pem
-  filename = "${var.asset_dir}/tls/aggregation-client.key"
-}
-
-resource "local_file" "aggregation-client-crt" {
-  count = var.enable_aggregation ? 1 : 0
-
-  content  = tls_locally_signed_cert.aggregation-client[0].cert_pem
-  filename = "${var.asset_dir}/tls/aggregation-client.crt"
 }
 
